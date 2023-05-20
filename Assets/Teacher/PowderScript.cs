@@ -12,7 +12,7 @@ public class PowderScript : MonoBehaviour
     //プレイヤーに当たるか。これが無きゃ生成されて即合体!!
     private const float kCanHitPlayerTime = 0.1f;
     private bool canHitPlayer = false;
-    //private float turnStartTime = 0.2f;
+    
 
     public bool GetCanHitPlayer()
     {

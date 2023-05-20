@@ -112,23 +112,25 @@ public class PlayerScript : MonoBehaviour
             //ジャンプできるかどうか(敵を踏んだかどうか)
             bool canJump = false;
             //チョークなら判定の処理
-            if (collision.tag == "Choke")
+            if (collision.tag == "Choke" )
             {
-                float playerBottom = prePlayerPos.y - this.gameObject.GetComponent<Renderer>().bounds.size.y / 2;
-                float tragetTop = collision.transform.position.y + collision.gameObject.GetComponent<Renderer>().bounds.size.y / 2;
+                if (collision.GetComponent<ChokeScript>().ReturnCanStep() == true) {
+                    float playerBottom = prePlayerPos.y - this.gameObject.GetComponent<Renderer>().bounds.size.y / 2;
+                    float tragetTop = collision.transform.position.y + collision.gameObject.GetComponent<Renderer>().bounds.size.y / 2;
 
-                DebugPoint.transform.position = new Vector3 (prePlayerPos.x, playerBottom, prePlayerPos.z);
-                DebugPoint2.transform.position = new Vector3(collision.transform.position.x, tragetTop, collision.transform.position.z);
+                    DebugPoint.transform.position = new Vector3(prePlayerPos.x, playerBottom, prePlayerPos.z);
+                    DebugPoint2.transform.position = new Vector3(collision.transform.position.x, tragetTop, collision.transform.position.z);
 
-                //プレイヤーの位置(下面)がチョーク(上面)より上かで判定をとる
-                if (playerBottom >= tragetTop)
-                {
-                    canJump = true;
-                    collision.GetComponent<ChokeScript>().GeneratePowder();
-                }
-                else
-                {
-                    //ダメージ処理
+                    //プレイヤーの位置(下面)がチョーク(上面)より上かで判定をとる
+                    if (playerBottom >= tragetTop)
+                    {
+                        canJump = true;
+                        collision.GetComponent<ChokeScript>().GeneratePowder();
+                    }
+                    else
+                    {
+                        //ダメージ処理
+                    }
                 }
             }
             else

@@ -19,7 +19,13 @@ public class ChokeScript : MonoBehaviour
     private float turnSpeed;
     private bool powderSlow = false;
     private bool isTurn = false;
-    
+    private float turnStartTime = 0.0f;
+    private float turnStartTimeStart = 0.5f;
+
+    private bool canStepPlayer = true;
+
+    private float Rot = 0.0f;
+
     private Vector3 theacherPos = Vector3.zero;
     
 
@@ -31,6 +37,10 @@ public class ChokeScript : MonoBehaviour
 
     // Start is called before the first frame update
 
+    public bool ReturnCanStep()
+    {
+        return canStepPlayer;
+    }
    
     void Start()
     {
@@ -54,23 +64,38 @@ public class ChokeScript : MonoBehaviour
         }
         else
         {
-            Vector3 ThisPos = this.transform.position;
-
-            Vector3 turnVector = theacherPos - ThisPos;
-            turnVector.Normalize();
-
-            if (turnSpeed < kTurnSpeedMax)
+            if (turnStartTime >= turnStartTimeStart)
             {
-                turnSpeed += kTurnAcc;
+
+                Vector3 ThisPos = this.transform.position;
+                Vector3 turnVector = theacherPos - ThisPos;
+                Rot = Mathf.Atan2(turnVector.y, turnVector.x) * Mathf.Rad2Deg;
+                this.transform.eulerAngles = new Vector3(0.0f, 0.0f, Rot);
+
+                turnVector.Normalize();
+
+                if (turnSpeed < kTurnSpeedMax)
+                {
+                    turnSpeed += kTurnAcc;
+                }
+                else
+                {
+                    turnSpeed = kTurnSpeedMax;
+                }
+
+                turnVector = turnVector * turnSpeed;
+
+                velocity = turnVector;
             }
             else
             {
-                turnSpeed = kTurnSpeedMax;
+                velocity = new Vector3(0.0f,0.0f,0.0f);
+
+                this.transform.eulerAngles = new Vector3(0.0f, 0.0f, Rot);
+
+                turnStartTime += Time.deltaTime;
+                Rot -= 45.0f;
             }
-
-            turnVector = turnVector * turnSpeed;
-
-            velocity = turnVector;
         }
 
         ThisRigidbody2D.velocity = velocity;
@@ -113,10 +138,7 @@ public class ChokeScript : MonoBehaviour
         theacherPos = theacher.transform.position;
 
         isTurn = true;
+        canStepPlayer = false;
 
-        Vector3 ThisPos = this.transform.position;
-        Vector3 turnVector = theacherPos - ThisPos;
-        float Rot = Mathf.Atan2(turnVector.y, turnVector.x) * Mathf.Rad2Deg;
-        this.transform.eulerAngles = new Vector3(0.0f, 0.0f, Rot);
     }
 }
