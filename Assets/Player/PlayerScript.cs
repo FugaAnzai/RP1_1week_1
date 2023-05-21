@@ -8,6 +8,7 @@ public class PlayerScript : MonoBehaviour
     public Vector2 pVelocity;
     public float moveSpeed;
     public float jumpSpeed;
+    public float chokeJumpSpeed;
     public float gravity;
     public float jumpHeight;
     public GroundCheck ground;
@@ -15,9 +16,10 @@ public class PlayerScript : MonoBehaviour
 
     private bool isGround = false;
     private bool isJump = false;
-    private bool isCokeJump = false;
-    private float jumpPos = 0.0f;
+    private bool isChokeJump = false;
+    public float jumpPos = 0.0f;
     private bool isPreSpace;
+    private bool isSleep = true;
 
     private Vector3 prePlayerPos;
 
@@ -40,64 +42,94 @@ public class PlayerScript : MonoBehaviour
         //接地判定を得る
         isGround = ground.IsGround();
 
+        //毎フレームx方向リセット
         pVelocity.x = 0;
 
+        //地面に触れていない間重力加算
         if (!isGround)
         {
             pVelocity.y += -gravity;
         }
 
+        //右移動
         if (Input.GetKey(KeyCode.D))
         {
             pVelocity.x = moveSpeed;
         }
 
+        //左移動
         if (Input.GetKey(KeyCode.A))
         {
             pVelocity.x = -moveSpeed;
         }
 
-        if (isGround)
+        //地面に触れているかつチョークジャンプがオフの時
+        if (isGround && !isChokeJump)
         {
+            //yの速度をゼロに
             pVelocity.y = 0;
 
+            //ジャンプ処理、長押しでは反応しない
             if (Input.GetKey(KeyCode.Space) && !isPreSpace)
             {
+                //y方向の移動ベクトルに代入
                 pVelocity.y = jumpSpeed;
+                //ジャンプ時のy座標保存
                 jumpPos = transform.position.y;
+                //ジャンプフラグをtrueに
                 isJump = true;
             }
             else
             {
+                //押されていない間はジャンプフラグをfalseに
                 isJump = false;
             }
 
         }
-        else if (isCokeJump)
+        else if (isChokeJump)//チョークジャンプがtrueの時
         {
-            if (Input.GetKey(KeyCode.Space) && jumpPos + jumpHeight > transform.position.y)
+            //入力がなくてもジャンプ
+            if (jumpPos + jumpHeight > transform.position.y)
             {
+                //y方向の移動ベクトルに代入
                 pVelocity.y = jumpSpeed;
             }
             else
             {
-                isCokeJump = false;
+                //ジャンプ上限を超えるとフラグをfalseに
+                isChokeJump = false;
             }
 
         }
         else if (isJump)
         {
+            //ジャンプ中にも入力受付、長押しで高く飛べる
             if (Input.GetKey(KeyCode.Space) && jumpPos + jumpHeight > transform.position.y)
             {
+                //y方向の移動ベクトルに代入
                 pVelocity.y = jumpSpeed;
             }
             else
             {
+               
                 isJump = false;
             }
 
         }
 
+        //移動ベクトルが0ではない時
+        if(pVelocity != new Vector2(0, 0))
+        {
+            //スリープフラグをfalseに
+            isSleep = false;
+        }
+        else
+        {
+            //動いてるときはスリープフラグをtrueに
+            isSleep = true;
+        }
+
+        //rigidbodyの移動ベクトルに代入
         playerRigidBody.velocity = pVelocity;
 
         isPreSpace = Input.GetKey(KeyCode.Space);
@@ -114,6 +146,7 @@ public class PlayerScript : MonoBehaviour
             //チョークなら判定の処理
             if (collision.tag == "Choke" )
             {
+
                 if (collision.GetComponent<ChokeScript>().ReturnCanStep() == true) {
                     float playerBottom = prePlayerPos.y - this.gameObject.GetComponent<Renderer>().bounds.size.y / 2;
                     float tragetTop = collision.transform.position.y + collision.gameObject.GetComponent<Renderer>().bounds.size.y / 2;
@@ -125,6 +158,7 @@ public class PlayerScript : MonoBehaviour
                     if (playerBottom >= tragetTop)
                     {
                         canJump = true;
+                        jumpPos = transform.position.y;
                         collision.GetComponent<ChokeScript>().GeneratePowder();
                     }
                     else
@@ -138,6 +172,7 @@ public class PlayerScript : MonoBehaviour
                 if (collision.GetComponent<PowderScript>().GetCanHitPlayer() == true)
                 {
                     canJump = true;
+                    Debug.Log("PowderHit");
                 }
             }
 
@@ -145,7 +180,7 @@ public class PlayerScript : MonoBehaviour
             {
                 pVelocity.y = jumpSpeed;
                 jumpPos = transform.position.y;
-                isCokeJump = true;
+                isChokeJump = true;
 
                 if (collision.tag == "Choke")
                 {
