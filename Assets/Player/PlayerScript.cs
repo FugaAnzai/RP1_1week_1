@@ -17,14 +17,26 @@ public class PlayerScript : MonoBehaviour
     private bool isGround = false;
     private bool isJump = false;
     private bool isChokeJump = false;
-    public float jumpPos = 0.0f;
     private bool isPreSpace;
-    private bool isSleep = true;
+    public bool isSleep = true;
+
+    private float jumpPos = 0.0f;
+    private float sleepCount = 0.0f;
 
     private Vector3 prePlayerPos;
 
     public GameObject DebugPoint;
     public GameObject DebugPoint2;
+
+    public bool GetIsGround()
+    {
+        return isGround;
+    }
+
+    public bool GetIsSleep()
+    {
+        return isSleep;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -117,16 +129,21 @@ public class PlayerScript : MonoBehaviour
 
         }
 
-        //移動ベクトルが0ではない時
-        if(pVelocity != new Vector2(0, 0))
+        //移動ベクトルが0の時
+        if(pVelocity == new Vector2(0, 0))
         {
-            //スリープフラグをfalseに
-            isSleep = false;
+            sleepCount++;
+            
+            if(sleepCount > 30)
+            {
+                isSleep = true;
+            }
         }
         else
         {
-            //動いてるときはスリープフラグをtrueに
-            isSleep = true;
+            sleepCount = 0;
+            //動いてるときはスリープフラグをfalseに
+            isSleep = false;
         }
 
         //rigidbodyの移動ベクトルに代入
@@ -195,5 +212,7 @@ public class PlayerScript : MonoBehaviour
         }
 
     }
+
+    
 
 }

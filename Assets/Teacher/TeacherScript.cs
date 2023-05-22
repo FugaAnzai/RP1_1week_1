@@ -6,6 +6,11 @@ public class TeacherScript : MonoBehaviour
 {
     public GameObject chokePrefab;
     public GameObject player;
+    
+    private PlayerScript playerScript;
+
+    private bool isAttack;
+
     private void MakeChokePrefab()
     {
         //チョーク発射位置
@@ -14,10 +19,19 @@ public class TeacherScript : MonoBehaviour
         GameObject choke = Instantiate(chokePrefab, shotPos, Quaternion.identity);
     }
 
+    private void StraightChoke()
+    {
+        Vector3 shotPos = this.transform.position;
+        shotPos.y = -2.5f;
+        GameObject choke = Instantiate(chokePrefab, shotPos, Quaternion.identity);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("MakeChokePrefab", 0.0f, 2.0f);
+        isAttack = true;
+        InvokeRepeating("StraightChoke", 0.0f, 2.0f);
+        playerScript = player.GetComponent<PlayerScript>();
         
     }
 
@@ -25,9 +39,16 @@ public class TeacherScript : MonoBehaviour
     void Update()
     {
         //N押すと発射が止みます
-        if (Input.GetKey(KeyCode.N))
+        if (Input.GetKey(KeyCode.N) || playerScript.GetIsSleep() == false)
         {
-            CancelInvoke("MakeChokePrefab");
+            isAttack = false;
+            CancelInvoke("StraightChoke");
+        }
+
+        if(isAttack == false && playerScript.GetIsSleep())
+        {
+            isAttack = true;
+            InvokeRepeating("StraightChoke", 0.0f, 2.0f);
         }
     }
 }

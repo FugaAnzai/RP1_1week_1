@@ -7,6 +7,8 @@ public class ChokeScript : MonoBehaviour
     public float moveSpeed;
     public GameObject powderPrefab;
     public Rigidbody2D ThisRigidbody2D;
+    private GameObject player;
+    private PlayerScript playerScript;
 
     //ÉXÉçÉEå„ÇÃë¨ìx
     public float slowedMoveSpeed;
@@ -23,11 +25,11 @@ public class ChokeScript : MonoBehaviour
     private float turnStartTimeStart = 0.5f;
 
     private bool canStepPlayer = true;
+    private bool isGround;
 
     private float Rot = 0.0f;
 
-    private Vector3 theacherPos = Vector3.zero;
-    
+    private Vector3 teacherPos = Vector3.zero;
 
     void OnBecameInvisible()
     {
@@ -46,6 +48,8 @@ public class ChokeScript : MonoBehaviour
     {
 
         velocity = velocity * moveSpeed;
+        player = GameObject.Find("Player");
+        playerScript = player.GetComponent<PlayerScript>();
 
     }
 
@@ -64,11 +68,11 @@ public class ChokeScript : MonoBehaviour
         }
         else
         {
-            if (turnStartTime >= turnStartTimeStart)
+            if (turnStartTime >= turnStartTimeStart && playerScript.GetIsGround())
             {
 
                 Vector3 ThisPos = this.transform.position;
-                Vector3 turnVector = theacherPos - ThisPos;
+                Vector3 turnVector = teacherPos - ThisPos;
                 Rot = Mathf.Atan2(turnVector.y, turnVector.x) * Mathf.Rad2Deg;
                 this.transform.eulerAngles = new Vector3(0.0f, 0.0f, Rot);
 
@@ -104,8 +108,9 @@ public class ChokeScript : MonoBehaviour
     public void GeneratePowder()
     {
         
-        Instantiate(powderPrefab, this.transform.position, Quaternion.identity);
-        
+        Instantiate(powderPrefab, new Vector3(this.transform.position.x + 2, this.transform.position.y, this.transform.position.z), Quaternion.identity);
+        Instantiate(powderPrefab, new Vector3(this.transform.position.x - 2, this.transform.position.y, this.transform.position.z), Quaternion.identity);
+
     }
 
     void OnTriggerStay2D(Collider2D collision)
@@ -135,10 +140,10 @@ public class ChokeScript : MonoBehaviour
     {
         GameObject theacher = GameObject.FindGameObjectWithTag("Teacher");
 
-        theacherPos = theacher.transform.position;
+        teacherPos = theacher.transform.position;
 
         isTurn = true;
-        canStepPlayer = false;
+        //canStepPlayer = false;
 
     }
 }
