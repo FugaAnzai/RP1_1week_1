@@ -15,6 +15,8 @@ public class PowderScript : MonoBehaviour
 
     private float moveT = 0;
 
+    public const float DeathTime = 20.0f;
+
     private Vector3 start = Vector3.zero;
     private Vector3 end = Vector3.zero;
 
@@ -53,6 +55,11 @@ public class PowderScript : MonoBehaviour
         }
 
         livingTime += Time.deltaTime;
+
+        if(livingTime >= DeathTime)
+        {
+            Destroy(this.gameObject);
+        }
 
         if(isMove)
         {
