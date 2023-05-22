@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TeacherScript : MonoBehaviour
 {
-    private enum WAVE
+    public enum WAVE
     {
         SetWave1,
         Wave1,
@@ -19,7 +19,7 @@ public class TeacherScript : MonoBehaviour
         Wave5,
     }
 
-    WAVE wave = WAVE.SetWave1;
+    public WAVE wave = WAVE.SetWave1;
 
     public GameObject chokePrefab;
     public GameObject player;
@@ -49,6 +49,7 @@ public class TeacherScript : MonoBehaviour
 
         }
     }
+
 
     private void SetWave1()
     {

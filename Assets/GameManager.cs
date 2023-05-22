@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject sleepTimerObject;
     public GameObject player;
+    public GameObject teacher;
     public float sleepTimerLimit = 60.0f;
 
     private Image timerImage;
@@ -31,8 +32,25 @@ public class GameManager : MonoBehaviour
         sleepSlider = sleepTimerObject.GetComponent<Slider>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void ResetSleep()
+    {
+        sleepTimer = 0.0f;
+
+        float stl; //ƒNƒŠƒAŽžŠÔ
+
+        switch (teacher.GetComponent<TeacherScript>().wave)
+        {
+            case TeacherScript.WAVE.SetWave1:
+                stl = 60.0f;
+                break;
+        }
+
+
+        sleepTimerLimit = 0;
+    }
+
+        // Update is called once per frame
+        void Update()
     {
 
         if(timer <= 0.0f)
