@@ -56,6 +56,7 @@ public class PowderScript : MonoBehaviour
 
         livingTime += Time.deltaTime;
 
+        //ˆê’èŽžŠÔŒo‚Á‚½‚çÁ‹Ž
         if(livingTime >= DeathTime)
         {
             Destroy(this.gameObject);
