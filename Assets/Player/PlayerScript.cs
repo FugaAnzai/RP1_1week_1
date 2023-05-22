@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
 
+   
     public Vector2 pVelocity;
     public float moveSpeed;
     public float jumpSpeed;
@@ -166,7 +167,8 @@ public class PlayerScript : MonoBehaviour
 
                 if (collision.GetComponent<ChokeScript>().ReturnCanStep() == true) {
                     float playerBottom = prePlayerPos.y - this.gameObject.GetComponent<Renderer>().bounds.size.y / 2;
-                    float tragetTop = collision.transform.position.y + collision.gameObject.GetComponent<Renderer>().bounds.size.y / 2;
+                    float tragetTop = collision.transform.position.y + collision.transform.GetChild(0).gameObject.GetComponent<Renderer>().bounds.size.y / 2;
+                    tragetTop = collision.ClosestPoint(this.transform.position).y;
 
                     DebugPoint.transform.position = new Vector3(prePlayerPos.x, playerBottom, prePlayerPos.z);
                     DebugPoint2.transform.position = new Vector3(collision.transform.position.x, tragetTop, collision.transform.position.z);

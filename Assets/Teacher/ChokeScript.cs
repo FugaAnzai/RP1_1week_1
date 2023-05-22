@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ChokeScript : MonoBehaviour
 {
+    public GameObject ChokeGra;
     public float moveSpeed;
     public GameObject powderPrefab;
     public Rigidbody2D ThisRigidbody2D;
@@ -77,7 +78,7 @@ public class ChokeScript : MonoBehaviour
                 Vector3 ThisPos = this.transform.position;
                 Vector3 turnVector = teacherPos - ThisPos;
                 Rot = Mathf.Atan2(turnVector.y, turnVector.x) * Mathf.Rad2Deg;
-                this.transform.eulerAngles = new Vector3(0.0f, 0.0f, Rot);
+                ChokeGra.transform.localEulerAngles = new Vector3(0.0f, 0.0f, Rot);
 
                 turnVector.Normalize();
 
@@ -98,7 +99,7 @@ public class ChokeScript : MonoBehaviour
             {
                 velocity = new Vector3(0.0f,0.0f,0.0f);
 
-                this.transform.eulerAngles = new Vector3(0.0f, 0.0f, Rot);
+                ChokeGra.transform.localEulerAngles = new Vector3(0.0f, 0.0f, Rot);
 
                 turnStartTime += Time.deltaTime;
                 Rot -= 45.0f;
