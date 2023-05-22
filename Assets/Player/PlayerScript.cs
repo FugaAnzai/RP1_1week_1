@@ -195,6 +195,7 @@ public class PlayerScript : MonoBehaviour
 
             if (canJump == true)
             {
+
                 pVelocity.y = jumpSpeed;
                 jumpPos = transform.position.y;
                 isChokeJump = true;

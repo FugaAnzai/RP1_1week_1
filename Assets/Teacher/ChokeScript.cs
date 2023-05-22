@@ -21,6 +21,7 @@ public class ChokeScript : MonoBehaviour
     private float turnSpeed;
     private bool powderSlow = false;
     private bool isTurn = false;
+    private bool isTurnMoved = false;
     private float turnStartTime = 0.0f;
     private float turnStartTimeStart = 0.5f;
 
@@ -28,6 +29,8 @@ public class ChokeScript : MonoBehaviour
     private bool isGround;
 
     private float Rot = 0.0f;
+
+    private bool summonedPowder = false;
 
     private Vector3 teacherPos = Vector3.zero;
 
@@ -68,7 +71,7 @@ public class ChokeScript : MonoBehaviour
         }
         else
         {
-            if (turnStartTime >= turnStartTimeStart && playerScript.GetIsGround())
+            if (turnStartTime >= turnStartTimeStart && isTurnMoved == true)
             {
 
                 Vector3 ThisPos = this.transform.position;
@@ -99,6 +102,11 @@ public class ChokeScript : MonoBehaviour
 
                 turnStartTime += Time.deltaTime;
                 Rot -= 45.0f;
+
+                if (playerScript.GetIsGround())
+                {
+                    isTurnMoved = true;
+                }
             }
         }
 
@@ -107,10 +115,13 @@ public class ChokeScript : MonoBehaviour
 
     public void GeneratePowder()
     {
-        
-        Instantiate(powderPrefab, new Vector3(this.transform.position.x + 2, this.transform.position.y, this.transform.position.z), Quaternion.identity);
-        Instantiate(powderPrefab, new Vector3(this.transform.position.x - 2, this.transform.position.y, this.transform.position.z), Quaternion.identity);
+        if (summonedPowder == false)
+        {
+            Instantiate(powderPrefab, new Vector3(this.transform.position.x + 2, this.transform.position.y, this.transform.position.z), Quaternion.identity);
+            Instantiate(powderPrefab, new Vector3(this.transform.position.x - 2, this.transform.position.y, this.transform.position.z), Quaternion.identity);
 
+            summonedPowder = true;
+        }
     }
 
     void OnTriggerStay2D(Collider2D collision)
