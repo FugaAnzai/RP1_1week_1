@@ -27,6 +27,7 @@ public class ChokeScript : MonoBehaviour
 
     private bool canStepPlayer = true;
     private bool isGround;
+    private bool isPowderHit = false;
 
     private float Rot = 0.0f;
 
@@ -128,9 +129,10 @@ public class ChokeScript : MonoBehaviour
     {
         if (isTurn == false)
         {
-            if (collision.tag == "Powder")
+            if (collision.tag == "Powder" && !isPowderHit)
             {
                 powderSlow = true;
+                isPowderHit = true;
                 Destroy(collision.gameObject);
 
 

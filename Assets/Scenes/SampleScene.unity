@@ -440,6 +440,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4952499056294480022, guid: 1a35633a3ff560d428971cd3c7ce8da2, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4952499056294480023, guid: 1a35633a3ff560d428971cd3c7ce8da2, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -616,7 +620,7 @@ GameObject:
   - component: {fileID: 1446602994}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -751,10 +755,12 @@ MonoBehaviour:
   pVelocity: {x: 0, y: 0}
   moveSpeed: 5
   jumpSpeed: 10
+  chokeJumpSpeed: 0
   gravity: 0.8
   jumpHeight: 2
   ground: {fileID: 45367598}
   playerRigidBody: {fileID: 0}
+  isSleep: 1
   DebugPoint: {fileID: 1992066353}
   DebugPoint2: {fileID: 1897587837}
 --- !u!1 &1897587837
@@ -989,6 +995,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chokePrefab: {fileID: 4862462043779202695, guid: 74d0aa273a93fb94b9e83f087272d4d8, type: 3}
   player: {fileID: 1446602989}
+  initCount: 0
 --- !u!1 &1992066353
 GameObject:
   m_ObjectHideFlags: 0

@@ -188,8 +188,8 @@ public class PlayerScript : MonoBehaviour
             {
                 if (collision.GetComponent<PowderScript>().GetCanHitPlayer() == true)
                 {
-                    canJump = true;
-                    Debug.Log("PowderHit");
+                    //canJump = true;
+                    //Destroy(collision.gameObject);
                 }
             }
 
@@ -202,6 +202,7 @@ public class PlayerScript : MonoBehaviour
 
                 if (collision.tag == "Choke")
                 {
+                    canJump = false;
                     collision.GetComponent<ChokeScript>().StartTurn();
                 }
                 else
