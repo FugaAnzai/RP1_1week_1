@@ -58,12 +58,6 @@ public class GameManager : MonoBehaviour
 
     void ResetSleep()
     {
-<<<<<<< HEAD
-        sleepTimer = 0.0f;
-
-        float stl = 0.0f; //ƒNƒŠƒAŽžŠÔ
-=======
->>>>>>> 6b3c06d1ed4cab161bf9a62ed7a96bfd07127d8a
 
         switch (teacher.GetComponent<TeacherScript>().wave)
         {
@@ -117,11 +111,6 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-<<<<<<< HEAD
-
-        sleepTimerLimit = stl;
-=======
->>>>>>> 6b3c06d1ed4cab161bf9a62ed7a96bfd07127d8a
     }
 
     // Update is called once per frame
