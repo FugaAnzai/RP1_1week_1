@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
     {
         sleepTimer = 0.0f;
 
-        float stl; //クリア時間
+        float stl = 0.0f; //クリア時間
 
         switch (teacher.GetComponent<TeacherScript>().wave)
         {
@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
         }
 
 
-        sleepTimerLimit = 0;
+        sleepTimerLimit = stl;
     }
 
         // Update is called once per frame
