@@ -32,11 +32,9 @@ public class PowderScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        UnityEngine.Debug.Log("powderHit");
 
         if (collision.tag == "Player" && isMove == false)
         {
-            UnityEngine.Debug.Log("powderHit");
             start = this.transform.position;
             end = this.transform.position + new Vector3(1, 0, 0);
             moveT = 0;
