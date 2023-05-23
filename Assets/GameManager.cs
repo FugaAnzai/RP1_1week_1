@@ -13,15 +13,27 @@ public class GameManager : MonoBehaviour
 
     public GameObject timerObject;
 
-    public GameObject sleepTimerObject;
+    public GameObject damageTimerObject;
     public GameObject player;
     public GameObject teacher;
-    public float sleepTimerLimit = 60.0f;
+    public float teacherDamageLimit = 60.0f;
 
     private Image timerImage;
-    private Slider sleepSlider;
+    private Slider damageSlider;
 
-    private float sleepTimer = 0.0f;
+    private TeacherScript teacherScript;
+
+    private float damageTimer = 0.0f;
+    private const float kDamageTimerAddValue = 0.1f;
+
+    private const float kWave1HealthMAX = 1.0f;
+    private const float kWave2HealthMAX = 2.0f;
+    private const float kWave3HealthMAX = 3.0f;
+    private const float kWave4HealthMAX = 3.0f;
+    private const float kWave5HealthMAX = 3.0f;
+    private const float kWave6HealthMAX = 3.0f;
+    private const float kWave7HealthMAX = 3.0f;
+    private const float kWave8HealthMAX = 3.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -29,51 +41,121 @@ public class GameManager : MonoBehaviour
         timer = timeLimit;
         timerImage = timerObject.GetComponent<Image>();
 
-        sleepSlider = sleepTimerObject.GetComponent<Slider>();
+        damageSlider = damageTimerObject.GetComponent<Slider>();
+        teacherScript = teacher.GetComponent<TeacherScript>();
+    }
+
+    void ClearObject(string tag)
+    {
+        GameObject[] objects = GameObject.FindGameObjectsWithTag(tag);
+
+        foreach (GameObject obj in objects)
+        {
+            Destroy(obj);
+        }
+
     }
 
     void ResetSleep()
     {
-        sleepTimer = 0.0f;
-
-        float stl; //ƒNƒŠƒAŽžŠÔ
 
         switch (teacher.GetComponent<TeacherScript>().wave)
         {
             case TeacherScript.WAVE.SetWave1:
-                stl = 60.0f;
+                damageTimer = 0.0f;
+                teacherDamageLimit = kWave1HealthMAX;
+                timer = timeLimit;
+                timerImage = timerObject.GetComponent<Image>();
+                break;
+            case TeacherScript.WAVE.SetWave2:
+                damageTimer = 0.0f;
+                teacherDamageLimit = kWave2HealthMAX;
+                timer = timeLimit;
+                timerImage = timerObject.GetComponent<Image>();
+                break;
+            case TeacherScript.WAVE.SetWave3:
+                damageTimer = 0.0f;
+                teacherDamageLimit = kWave3HealthMAX;
+                timer = timeLimit;
+                timerImage = timerObject.GetComponent<Image>();
+                break;
+            case TeacherScript.WAVE.SetWave4:
+                damageTimer = 0.0f;
+                teacherDamageLimit = kWave4HealthMAX;
+                timer = timeLimit;
+                timerImage = timerObject.GetComponent<Image>();
+                break;
+            case TeacherScript.WAVE.SetWave5:
+                damageTimer = 0.0f;
+                teacherDamageLimit = kWave5HealthMAX;
+                timer = timeLimit;
+                timerImage = timerObject.GetComponent<Image>();
+                break;
+            case TeacherScript.WAVE.SetWave6:
+                damageTimer = 0.0f;
+                teacherDamageLimit = kWave6HealthMAX;
+                timer = timeLimit;
+                timerImage = timerObject.GetComponent<Image>();
+                break;
+            case TeacherScript.WAVE.SetWave7:
+                damageTimer = 0.0f;
+                teacherDamageLimit = kWave7HealthMAX;
+                timer = timeLimit;
+                timerImage = timerObject.GetComponent<Image>();
+                break;
+            case TeacherScript.WAVE.SetWave8:
+                damageTimer = 0.0f;
+                teacherDamageLimit = kWave8HealthMAX;
+                timer = timeLimit;
+                timerImage = timerObject.GetComponent<Image>();
                 break;
         }
 
-
-        sleepTimerLimit = 0;
     }
 
-        // Update is called once per frame
-        void Update()
+    // Update is called once per frame
+    void Update()
     {
-
+    
         if(timer <= 0.0f)
         {
             timer = 0.0f;
         }
-
+        
         timerImage.fillAmount = timer / timeLimit;
-
+        
         if (timer > 0.0f)
         {
             timer -= Time.deltaTime;
         }
-
-        if(player.GetComponent<PlayerScript>().GetIsSleep()){
-            sleepTimer += Time.deltaTime;
-        }
-
-        if(sleepTimer >= sleepTimerLimit)
+        
+        if(damageTimer >= teacherDamageLimit)
         {
-            sleepTimer = sleepTimerLimit;
+            damageTimer = teacherDamageLimit;
         }
 
-        sleepSlider.value = sleepTimer / sleepTimerLimit;
+        if (teacherScript.GetIsStartCalculate())
+        {
+            damageTimer += kDamageTimerAddValue * teacherScript.GetHitCount();
+            teacherScript.SetHitCount(0);
+            teacherScript.SetIsStartCalculate(false);
+        }
+
+        if(damageSlider.value >= 1.0f)
+        {
+            damageSlider.value = 0;
+            ClearObject("Choke");
+            ClearObject("Powder");
+            teacherScript.wave++;
+
+        }
+
+        ResetSleep();
+
+        damageSlider.value = damageTimer / teacherDamageLimit;
+
+        
+
+        
     }
 }

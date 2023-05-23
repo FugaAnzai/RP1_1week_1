@@ -42,6 +42,11 @@ public class ChokeScript : MonoBehaviour
         Debug.Log("delete");
     }
 
+    public bool GetIsTurn()
+    {
+        return isTurn;
+    }
+
     // Start is called before the first frame update
 
     public bool ReturnCanStep()
@@ -145,7 +150,7 @@ public class ChokeScript : MonoBehaviour
         {
             if (collision.tag == "Teacher")
             {
-                Destroy(this.gameObject);
+                //Destroy(this.gameObject);
             }
         }
     }
