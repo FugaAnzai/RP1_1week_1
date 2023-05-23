@@ -29,6 +29,8 @@ public class PlayerScript : MonoBehaviour
     public GameObject DebugPoint;
     public GameObject DebugPoint2;
 
+    private Animator anime = null;
+
     public bool GetIsGround()
     {
         return isGround;
@@ -45,7 +47,7 @@ public class PlayerScript : MonoBehaviour
         playerRigidBody = GetComponent<Rigidbody2D>();
 
         prePlayerPos = this.transform.position;
-
+        anime = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -91,6 +93,7 @@ public class PlayerScript : MonoBehaviour
                 jumpPos = transform.position.y;
                 //ジャンプフラグをtrueに
                 isJump = true;
+                anime.SetTrigger("StepTrigger");
             }
             else
             {
@@ -150,7 +153,39 @@ public class PlayerScript : MonoBehaviour
         //rigidbodyの移動ベクトルに代入
         playerRigidBody.velocity = pVelocity;
 
-        isPreSpace = Input.GetKey(KeyCode.Space);
+        if (pVelocity.y > 0.0f)
+        {
+            anime.SetBool("isJump", true);
+            anime.SetBool("isFall", false);
+        }
+        else if (pVelocity.y < 0.0f)
+        {
+            anime.SetBool("isJump", false);
+            anime.SetBool("isFall", true);
+        }
+
+        anime.SetBool("isWalk", false);
+        if (isGround == true)
+        {
+            anime.SetBool("isJump", false);
+            anime.SetBool("isFall", false);
+
+            if (pVelocity.x != 0.0f)
+            {
+                anime.SetBool("isWalk", true);
+            }
+        }
+
+        if (pVelocity.x > 0.0f)
+        {
+            this.GetComponent<SpriteRenderer>().flipX = false;
+        }
+        else if (pVelocity.x < 0.0f)
+        {
+            this.GetComponent<SpriteRenderer>().flipX = true;
+        }
+
+            isPreSpace = Input.GetKey(KeyCode.Space);
         prePlayerPos = this.transform.position;
     }
 
