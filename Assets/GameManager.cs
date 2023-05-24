@@ -33,10 +33,10 @@ public class GameManager : MonoBehaviour
     private const float kWave2HealthMAX = 1.5f;
     private const float kWave3HealthMAX = 2.0f;
     private const float kWave4HealthMAX = 2.8f;
-    private const float kWave5HealthMAX = 8.0f;
-    private const float kWave6HealthMAX = 3.0f;
-    private const float kWave7HealthMAX = 3.0f;
-    private const float kWave8HealthMAX = 3.0f;
+    private const float kWave5HealthMAX = 5.0f;
+    private const float kWave6HealthMAX = 5.0f;
+    private const float kWave7HealthMAX = 5.0f;
+    private const float kWave8HealthMAX = 6.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -121,7 +121,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
 
-        healthSlider.value = player.GetComponent<PlayerScript>().GetLife() / 10.0f;
+        healthSlider.value = player.GetComponent<PlayerScript>().GetLife();
 
         if(timer <= 0.0f)
         {
