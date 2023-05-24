@@ -12,6 +12,7 @@ public class PlayerScript : MonoBehaviour
     public float chokeJumpSpeed;
     public float gravity;
     public float jumpHeight;
+    public int life = 3;
     public GroundCheck ground;
     public Rigidbody2D playerRigidBody;
 
@@ -19,6 +20,7 @@ public class PlayerScript : MonoBehaviour
     private bool isJump = false;
     private bool isChokeJump = false;
     private bool isPreSpace;
+    private bool isGameOver = false;
     public bool isSleep = true;
 
     private float jumpPos = 0.0f;
@@ -37,6 +39,11 @@ public class PlayerScript : MonoBehaviour
     public bool GetIsSleep()
     {
         return isSleep;
+    }
+
+    public bool GetIsGameOver()
+    {
+        return isGameOver;
     }
 
     // Start is called before the first frame update
@@ -147,6 +154,13 @@ public class PlayerScript : MonoBehaviour
             isSleep = false;
         }
 
+        if(life < 0)
+        {
+            life = 0;
+            isGameOver = false;
+            Debug.Log("Game Over");
+        }
+
         //rigidbodyの移動ベクトルに代入
         playerRigidBody.velocity = pVelocity;
 
@@ -182,7 +196,8 @@ public class PlayerScript : MonoBehaviour
                     }
                     else
                     {
-                        //ダメージ処理
+                        life--;
+                        Debug.Log("Hit");
                     }
                 }
             }

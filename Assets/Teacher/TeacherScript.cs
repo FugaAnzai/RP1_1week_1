@@ -23,6 +23,7 @@ public class TeacherScript : MonoBehaviour
         Wave7,
         SetWave8,
         Wave8,
+        GameClear,
     }
 
     public WAVE wave = WAVE.SetWave1;
@@ -92,6 +93,230 @@ public class TeacherScript : MonoBehaviour
 
     }
 
+    //階段状攻撃二段
+    private IEnumerator Stair2Choke()
+    {
+        initPosY = new float[2];
+        initPosY[0] = -3.0f;//一発目
+        initPosY[1] = -2.0f;//二発目
+
+        while (true)
+        {
+            Vector3 shotPos = this.transform.position;
+            //initCountで座標をずらす
+            shotPos.y = initPosY[initCount];
+            GameObject choke = Instantiate(chokePrefab, shotPos, Quaternion.identity);
+            //次の弾撃てるまでコルーチン停止
+            yield return new WaitForSeconds(0.3f);
+
+            initCount++;
+
+            if (initCount > 1)
+            {
+                initCount = 0;
+                //弾を最大数撃ちきったら指定秒数コルーチン停止
+                yield return new WaitForSeconds(bulletCoolDown);
+            }
+
+        }
+    }
+
+    private IEnumerator Stair3ChokeAndReverse()
+    {
+        initPosY = new float[6];
+        initPosY[0] = -3.0f;//一発目
+        initPosY[1] = -2.0f;//二発目
+        initPosY[2] = -1.0f;//三発目
+        initPosY[3] = -1.0f;//四発目
+        initPosY[4] = -2.0f;//五発目
+        initPosY[5] = -3.0f;//六発目
+
+        while (true)
+        {
+            Vector3 shotPos = this.transform.position;
+            //initCountで座標をずらす
+            shotPos.y = initPosY[initCount];
+            GameObject choke = Instantiate(chokePrefab, shotPos, Quaternion.identity);
+            //次の弾撃てるまでコルーチン停止
+            yield return new WaitForSeconds(0.3f);
+
+            initCount++;
+
+            if (initCount == 3)
+            {
+                //弾を二発撃ったら指定秒数コルーチン停止
+                yield return new WaitForSeconds(bulletCoolDown);
+            }
+
+            if (initCount > 5)
+            {
+                initCount = 0;
+                //弾を最大数撃ちきったら指定秒数コルーチン停止
+                yield return new WaitForSeconds(bulletCoolDown);
+            }
+
+        }
+    }
+
+    private IEnumerator Stair3BumpyChoke()
+    {
+        initPosY = new float[6];
+        initPosY[0] = -2.0f;//一発目
+        initPosY[1] = -3.0f;//二発目
+        initPosY[2] = -1.0f;//三発目
+        initPosY[3] = -1.0f;//四発目
+        initPosY[4] = -3.0f;//五発目
+        initPosY[5] = -2.0f;//六発目
+
+        while (true)
+        {
+            Vector3 shotPos = this.transform.position;
+            //initCountで座標をずらす
+            shotPos.y = initPosY[initCount];
+            GameObject choke = Instantiate(chokePrefab, shotPos, Quaternion.identity);
+            if(initCount == 1 || initCount == 3) { 
+                
+                initCount++;
+                shotPos.y = initPosY[initCount];
+                GameObject choke2 = Instantiate(chokePrefab, shotPos, Quaternion.identity);
+            }
+            //次の弾撃てるまでコルーチン停止
+            yield return new WaitForSeconds(0.3f);
+
+            initCount++;
+
+            if (initCount == 3)
+            {
+                //弾を二発撃ったら指定秒数コルーチン停止
+                yield return new WaitForSeconds(bulletCoolDown);
+            }
+
+            if (initCount > 5)
+            {
+                initCount = 0;
+                //弾を最大数撃ちきったら指定秒数コルーチン停止
+                yield return new WaitForSeconds(bulletCoolDown);
+            }
+
+        }
+    }
+
+    private IEnumerator Stair4Choke()
+    {
+        initPosY = new float[4];
+        initPosY[0] = -3.0f;//一発目
+        initPosY[1] = -2.0f;//二発目
+        initPosY[2] = -1.0f;//三発目
+        initPosY[3] = 0.0f;//四発目
+
+        while (true)
+        {
+            Vector3 shotPos = this.transform.position;
+            //initCountで座標をずらす
+            shotPos.y = initPosY[initCount];
+            GameObject choke = Instantiate(chokePrefab, shotPos, Quaternion.identity);
+            //次の弾撃てるまでコルーチン停止
+            yield return new WaitForSeconds(0.3f);
+
+            initCount++;
+
+            if (initCount > 3)
+            {
+                initCount = 0;
+                //弾を最大数撃ちきったら指定秒数コルーチン停止
+                yield return new WaitForSeconds(bulletCoolDown);
+            }
+
+        }
+    }
+
+    private IEnumerator Stair4ChokeAndReverse()
+    {
+        initPosY = new float[8];
+        initPosY[0] = -3.0f;//一発目
+        initPosY[1] = -2.0f;//二発目
+        initPosY[2] = -1.0f;//三発目
+        initPosY[3] = 0.0f;//四発目
+        initPosY[4] = 0.0f;//五発目
+        initPosY[5] = -1.0f;//六発目
+        initPosY[6] = -2.0f;//七発目
+        initPosY[7] = -3.0f;//八発目
+
+        while (true)
+        {
+            Vector3 shotPos = this.transform.position;
+            //initCountで座標をずらす
+            shotPos.y = initPosY[initCount];
+            GameObject choke = Instantiate(chokePrefab, shotPos, Quaternion.identity);
+            //次の弾撃てるまでコルーチン停止
+            yield return new WaitForSeconds(0.3f);
+
+            initCount++;
+
+            if (initCount == 4)
+            {
+                //弾を二発撃ったら指定秒数コルーチン停止
+                yield return new WaitForSeconds(bulletCoolDown);
+            }
+
+            if (initCount > 7)
+            {
+                initCount = 0;
+                //弾を最大数撃ちきったら指定秒数コルーチン停止
+                yield return new WaitForSeconds(bulletCoolDown);
+            }
+
+        }
+    }
+
+    private IEnumerator Stair5ChokeAndBumpy()
+    {
+        initPosY = new float[10];
+        initPosY[0] = -3.0f;//一発目
+        initPosY[1] = -2.0f;//二発目
+        initPosY[2] = -1.0f;//三発目
+        initPosY[3] = 0.0f;//四発目
+        initPosY[4] = 1.0f;//五発目
+        initPosY[5] = -1.0f;//六発目
+        initPosY[6] = -2.0f;//七発目
+        initPosY[7] = 0.0f;//八発目
+        initPosY[8] = -3.0f;//九発目
+        initPosY[9] = 1.0f;//十発目
+
+        while (true)
+        {
+            Vector3 shotPos = this.transform.position;
+            //initCountで座標をずらす
+            shotPos.y = initPosY[initCount];
+            GameObject choke = Instantiate(chokePrefab, shotPos, Quaternion.identity);
+            if (initCount == 6 || initCount == 8)
+            {
+
+                initCount++;
+                shotPos.y = initPosY[initCount];
+                GameObject choke2 = Instantiate(chokePrefab, shotPos, Quaternion.identity);
+            }
+            //次の弾撃てるまでコルーチン停止
+            yield return new WaitForSeconds(0.3f);
+
+            initCount++;
+
+            if (initCount == 5)
+            {
+                //弾を二発撃ったら指定秒数コルーチン停止
+                yield return new WaitForSeconds(bulletCoolDown);
+            }
+
+            if (initCount > 9)
+            {
+                initCount = 0;
+                //弾を最大数撃ちきったら指定秒数コルーチン停止
+                yield return new WaitForSeconds(bulletCoolDown);
+            }
+
+        }
+    }
+
     //Wave1
     private void SetWave1()
     {
@@ -116,38 +341,13 @@ public class TeacherScript : MonoBehaviour
             isAttack = true;
             //止まったら発射間隔を短くする
             bulletCoolDown = 2.0f;
+            StopCoroutine("StraightChoke");
+            StartCoroutine("StraightChoke");
         }
 
     }
 
-    //階段状攻撃二段
-    private IEnumerator Stair2Attack()
-    {
-        initPosY = new float[2];
-        initPosY[0] = -3.0f;//一発目
-        initPosY[1] = -2.0f;//二発目
-
-        while (true)
-        {
-            Vector3 shotPos = this.transform.position;
-            //initCountで座標をずらす
-            shotPos.y = initPosY[initCount];
-            GameObject choke = Instantiate(chokePrefab, shotPos, Quaternion.identity);
-            //次の弾撃てるまでコルーチン停止
-            yield return new WaitForSeconds(0.3f);
-
-            initCount++;
-
-            if (initCount > 1)
-            {
-                initCount = 0;
-                Debug.Log("hogege");
-                //弾を最大数撃ちきったら指定秒数コルーチン停止
-                yield return new WaitForSeconds(bulletCoolDown);
-            }
-
-        }
-    }
+   
 
     //Wave2
 
@@ -172,6 +372,8 @@ public class TeacherScript : MonoBehaviour
         {
             isAttack = true;
             bulletCoolDown = 0.8f;
+            StopCoroutine("StraightChoke");
+            StartCoroutine("StraightChoke");
         }
 
     }
@@ -191,13 +393,15 @@ public class TeacherScript : MonoBehaviour
         if (playerScript.GetIsSleep() == false)
         {
             isAttack = false;
-            bulletCoolDown = 4.0f;
+            bulletCoolDown = 5.0f;
         }
 
         if (isAttack == false && playerScript.GetIsSleep())
         {
             isAttack = true;
             bulletCoolDown = 2.0f;
+            StopCoroutine("Stair2Choke");
+            StartCoroutine("Stair2Choke");
         }
     }
 
@@ -208,7 +412,7 @@ public class TeacherScript : MonoBehaviour
         //Wave3のコルーチン停止
         StopCoroutine("Stair2Choke");
         //Wave4のコルーチンスタート
-        StartCoroutine("StraightChoke");
+        StartCoroutine("Stair3ChokeAndReverse");
     }
 
     private void Wave4()
@@ -216,13 +420,15 @@ public class TeacherScript : MonoBehaviour
         if (playerScript.GetIsSleep() == false)
         {
             isAttack = false;
-            bulletCoolDown = 4.0f;
+            bulletCoolDown = 5.0f;
         }
 
         if (isAttack == false && playerScript.GetIsSleep())
         {
             isAttack = true;
-            bulletCoolDown = 0.8f;
+            bulletCoolDown = 1.5f;
+            StopCoroutine("Stair3ChokeAndReverse");
+            StartCoroutine("Stair3ChokeAndReverse");
         }
     }
 
@@ -231,23 +437,25 @@ public class TeacherScript : MonoBehaviour
         initCount = 0;
         isAttack = true;
         //Wave1のコルーチン停止
-        StopCoroutine("StraightChoke");
+        StopCoroutine("Stair3ChokeAndReverse");
         //Wave2のコルーチンスタート
-        StartCoroutine("StraightChoke");
+        StartCoroutine("Stair3BumpyChoke");
     }
 
     private void Wave5()
-    {
+    { 
         if (playerScript.GetIsSleep() == false)
         {
             isAttack = false;
-            bulletCoolDown = 4.0f;
+            bulletCoolDown = 12.0f;
         }
 
         if (isAttack == false && playerScript.GetIsSleep())
         {
             isAttack = true;
-            bulletCoolDown = 0.8f;
+            bulletCoolDown = 1.5f;
+            StopCoroutine("Stair3BumpyChoke");
+            StartCoroutine("Stair3BumpyChoke");
         }
     }
 
@@ -256,9 +464,9 @@ public class TeacherScript : MonoBehaviour
         initCount = 0;
         isAttack = true;
         //Wave1のコルーチン停止
-        StopCoroutine("StraightChoke");
+        StopCoroutine("Stair3BumpyChoke");
         //Wave2のコルーチンスタート
-        StartCoroutine("StraightChoke");
+        StartCoroutine("Stair4Choke");
     }
 
     private void Wave6()
@@ -273,6 +481,8 @@ public class TeacherScript : MonoBehaviour
         {
             isAttack = true;
             bulletCoolDown = 0.8f;
+            StopCoroutine("Stair4Choke");
+            StartCoroutine("Stair4Choke");
         }
     }
 
@@ -281,9 +491,9 @@ public class TeacherScript : MonoBehaviour
         initCount = 0;
         isAttack = true;
         //Wave1のコルーチン停止
-        StopCoroutine("StraightChoke");
+        StopCoroutine("Stair4Choke");
         //Wave2のコルーチンスタート
-        StartCoroutine("StraightChoke");
+        StartCoroutine("Stair4ChokeAndReverse");
     }
 
     private void Wave7()
@@ -298,6 +508,8 @@ public class TeacherScript : MonoBehaviour
         {
             isAttack = true;
             bulletCoolDown = 0.8f;
+            StopCoroutine("Stair4ChokeAndReverse");
+            StartCoroutine("Stair4ChokeAndReverse");
         }
     }
 
@@ -306,9 +518,9 @@ public class TeacherScript : MonoBehaviour
         initCount = 0;
         isAttack = true;
         //Wave1のコルーチン停止
-        StopCoroutine("StraightChoke");
+        StopCoroutine("Stair4ChokeAndReverse");
         //Wave2のコルーチンスタート
-        StartCoroutine("StraightChoke");
+        StartCoroutine("Stair5ChokeAndBumpy");
     }
 
     private void Wave8()
@@ -323,6 +535,8 @@ public class TeacherScript : MonoBehaviour
         {
             isAttack = true;
             bulletCoolDown = 0.8f;
+            StopCoroutine("Stair5ChokeAndBumpy");
+            StartCoroutine("Stair5ChokeAndBumpy");
         }
     }
 
@@ -402,6 +616,8 @@ public class TeacherScript : MonoBehaviour
                 break;
             case WAVE.Wave8:
                 Wave8();
+                break;
+            case WAVE.GameClear:
                 break;
         }
     }

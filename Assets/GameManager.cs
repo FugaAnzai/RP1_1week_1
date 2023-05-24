@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static TeacherScript;
 
 public class GameManager : MonoBehaviour
 {
@@ -27,10 +28,10 @@ public class GameManager : MonoBehaviour
     private const float kDamageTimerAddValue = 0.1f;
 
     private const float kWave1HealthMAX = 1.0f;
-    private const float kWave2HealthMAX = 2.0f;
-    private const float kWave3HealthMAX = 3.0f;
-    private const float kWave4HealthMAX = 3.0f;
-    private const float kWave5HealthMAX = 3.0f;
+    private const float kWave2HealthMAX = 1.5f;
+    private const float kWave3HealthMAX = 2.0f;
+    private const float kWave4HealthMAX = 2.8f;
+    private const float kWave5HealthMAX = 8.0f;
     private const float kWave6HealthMAX = 3.0f;
     private const float kWave7HealthMAX = 3.0f;
     private const float kWave8HealthMAX = 3.0f;
@@ -148,6 +149,14 @@ public class GameManager : MonoBehaviour
             ClearObject("Powder");
             teacherScript.wave++;
 
+        }
+
+        if (player.GetComponent<PlayerScript>().GetIsGameOver() || teacherScript.wave == WAVE.GameClear)
+        {
+            if(Input.GetKeyDown(KeyCode.Space)) {
+                Debug.Log("ResetScene");
+                SceneManager.LoadScene(0);
+            }
         }
 
         ResetSleep();
