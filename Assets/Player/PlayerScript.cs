@@ -12,7 +12,7 @@ public class PlayerScript : MonoBehaviour
     public float chokeJumpSpeed;
     public float gravity;
     public float jumpHeight;
-    public int life = 3;
+    public int life = 10;
     public GroundCheck ground;
     public Rigidbody2D playerRigidBody;
 
@@ -48,6 +48,11 @@ public class PlayerScript : MonoBehaviour
         return isGameOver;
     }
 
+    public int GetLife()
+    {
+        return life;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -74,13 +79,13 @@ public class PlayerScript : MonoBehaviour
         }
 
         //右移動
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D) && isGameOver == false)
         {
             pVelocity.x = moveSpeed;
         }
 
         //左移動
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A) && isGameOver == false)
         {
             pVelocity.x = -moveSpeed;
         }
@@ -92,7 +97,7 @@ public class PlayerScript : MonoBehaviour
             pVelocity.y = 0;
 
             //ジャンプ処理、長押しでは反応しない
-            if (Input.GetKey(KeyCode.Space) && !isPreSpace)
+            if (Input.GetKey(KeyCode.Space) && !isPreSpace && isGameOver == false)
             {
                 //y方向の移動ベクトルに代入
                 pVelocity.y = jumpSpeed;
@@ -127,7 +132,7 @@ public class PlayerScript : MonoBehaviour
         else if (isJump)
         {
             //ジャンプ中にも入力受付、長押しで高く飛べる
-            if (Input.GetKey(KeyCode.Space) && jumpPos + jumpHeight > transform.position.y)
+            if (Input.GetKey(KeyCode.Space) && jumpPos + jumpHeight > transform.position.y && isGameOver == false)
             {
                 //y方向の移動ベクトルに代入
                 pVelocity.y = jumpSpeed;
@@ -160,7 +165,7 @@ public class PlayerScript : MonoBehaviour
         if(life < 0)
         {
             life = 0;
-            isGameOver = false;
+            isGameOver = true;
             Debug.Log("Game Over");
         }
 
@@ -199,7 +204,7 @@ public class PlayerScript : MonoBehaviour
             this.GetComponent<SpriteRenderer>().flipX = true;
         }
 
-            isPreSpace = Input.GetKey(KeyCode.Space);
+        isPreSpace = Input.GetKey(KeyCode.Space);
         prePlayerPos = this.transform.position;
     }
 
@@ -229,7 +234,7 @@ public class PlayerScript : MonoBehaviour
                         jumpPos = transform.position.y;
                         collision.GetComponent<ChokeScript>().GeneratePowder();
                     }
-                    else
+                    else if(collision.GetComponent<ChokeScript>().GetIsTurn() == false)
                     {
                         life--;
                         Debug.Log("Hit");

@@ -15,12 +15,14 @@ public class GameManager : MonoBehaviour
     public GameObject timerObject;
 
     public GameObject damageTimerObject;
+    public GameObject healthObject;
     public GameObject player;
     public GameObject teacher;
     public float teacherDamageLimit = 60.0f;
 
     private Image timerImage;
     private Slider damageSlider;
+    private Slider healthSlider;
 
     private TeacherScript teacherScript;
 
@@ -43,6 +45,7 @@ public class GameManager : MonoBehaviour
         timerImage = timerObject.GetComponent<Image>();
 
         damageSlider = damageTimerObject.GetComponent<Slider>();
+        healthSlider = healthObject.GetComponent<Slider>();
         teacherScript = teacher.GetComponent<TeacherScript>();
     }
 
@@ -117,7 +120,9 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    
+
+        healthSlider.value = player.GetComponent<PlayerScript>().GetLife() / 10;
+
         if(timer <= 0.0f)
         {
             timer = 0.0f;
