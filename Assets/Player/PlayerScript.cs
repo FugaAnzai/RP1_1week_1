@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
 
+    public float KyokaiSenn = 7.8f;
    
     public Vector2 pVelocity;
     public float moveSpeed;
@@ -199,7 +200,10 @@ public class PlayerScript : MonoBehaviour
             this.GetComponent<SpriteRenderer>().flipX = true;
         }
 
-            isPreSpace = Input.GetKey(KeyCode.Space);
+        float A = Mathf.Clamp( this.transform.position.x,-KyokaiSenn, KyokaiSenn);
+        this.transform.position = new Vector3( A , this.transform.position.y, this.transform.position.z);
+
+        isPreSpace = Input.GetKey(KeyCode.Space);
         prePlayerPos = this.transform.position;
     }
 
