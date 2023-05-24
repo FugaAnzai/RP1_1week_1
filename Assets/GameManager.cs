@@ -15,12 +15,14 @@ public class GameManager : MonoBehaviour
     public GameObject timerObject;
 
     public GameObject damageTimerObject;
+    public GameObject healthObject;
     public GameObject player;
     public GameObject teacher;
     public float teacherDamageLimit = 60.0f;
 
     private Image timerImage;
     private Slider damageSlider;
+    private Slider healthSlider;
 
     private TeacherScript teacherScript;
 
@@ -31,10 +33,10 @@ public class GameManager : MonoBehaviour
     private const float kWave2HealthMAX = 1.5f;
     private const float kWave3HealthMAX = 2.0f;
     private const float kWave4HealthMAX = 2.8f;
-    private const float kWave5HealthMAX = 8.0f;
-    private const float kWave6HealthMAX = 3.0f;
-    private const float kWave7HealthMAX = 3.0f;
-    private const float kWave8HealthMAX = 3.0f;
+    private const float kWave5HealthMAX = 5.0f;
+    private const float kWave6HealthMAX = 5.0f;
+    private const float kWave7HealthMAX = 5.0f;
+    private const float kWave8HealthMAX = 6.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -43,6 +45,7 @@ public class GameManager : MonoBehaviour
         timerImage = timerObject.GetComponent<Image>();
 
         damageSlider = damageTimerObject.GetComponent<Slider>();
+        healthSlider = healthObject.GetComponent<Slider>();
         teacherScript = teacher.GetComponent<TeacherScript>();
     }
 
@@ -117,7 +120,9 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    
+
+        healthSlider.value = player.GetComponent<PlayerScript>().GetLife();
+
         if(timer <= 0.0f)
         {
             timer = 0.0f;

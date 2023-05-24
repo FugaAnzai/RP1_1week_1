@@ -13,9 +13,10 @@ public class PlayerScript : MonoBehaviour
     public float chokeJumpSpeed;
     public float gravity;
     public float jumpHeight;
-    public int life = 3;
+    public float life = 0;
     public GroundCheck ground;
     public Rigidbody2D playerRigidBody;
+    public GameObject gameOver;
 
     private bool isGround = false;
     private bool isJump = false;
@@ -26,6 +27,8 @@ public class PlayerScript : MonoBehaviour
 
     private float jumpPos = 0.0f;
     private float sleepCount = 0.0f;
+    private int damageCount = 0;
+    private bool isDamage = false;
 
     private Vector3 prePlayerPos;
 
@@ -49,6 +52,11 @@ public class PlayerScript : MonoBehaviour
         return isGameOver;
     }
 
+    public float GetLife()
+    {
+        return life;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,6 +64,7 @@ public class PlayerScript : MonoBehaviour
 
         prePlayerPos = this.transform.position;
         anime = GetComponent<Animator>();
+        gameOver.SetActive(false);
     }
 
     // Update is called once per frame
@@ -75,15 +84,26 @@ public class PlayerScript : MonoBehaviour
         }
 
         //右移動
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D) && isGameOver == false)
         {
             pVelocity.x = moveSpeed;
         }
 
         //左移動
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A) && isGameOver == false)
         {
             pVelocity.x = -moveSpeed;
+        }
+
+        if(isDamage)
+        {
+            damageCount++;
+
+            if(damageCount > 60)
+            {
+                damageCount = 0;
+                isDamage = false;
+            }
         }
 
         //地面に触れているかつチョークジャンプがオフの時
@@ -93,7 +113,7 @@ public class PlayerScript : MonoBehaviour
             pVelocity.y = 0;
 
             //ジャンプ処理、長押しでは反応しない
-            if (Input.GetKey(KeyCode.Space) && !isPreSpace)
+            if (Input.GetKey(KeyCode.Space) && !isPreSpace && isGameOver == false)
             {
                 //y方向の移動ベクトルに代入
                 pVelocity.y = jumpSpeed;
@@ -128,7 +148,7 @@ public class PlayerScript : MonoBehaviour
         else if (isJump)
         {
             //ジャンプ中にも入力受付、長押しで高く飛べる
-            if (Input.GetKey(KeyCode.Space) && jumpPos + jumpHeight > transform.position.y)
+            if (Input.GetKey(KeyCode.Space) && jumpPos + jumpHeight > transform.position.y && isGameOver == false)
             {
                 //y方向の移動ベクトルに代入
                 pVelocity.y = jumpSpeed;
@@ -158,10 +178,11 @@ public class PlayerScript : MonoBehaviour
             isSleep = false;
         }
 
-        if(life < 0)
+        if(life > 10)
         {
-            life = 0;
-            isGameOver = false;
+            life = 10;
+            isGameOver = true;
+            gameOver.SetActive(true);
             Debug.Log("Game Over");
         }
 
@@ -233,9 +254,10 @@ public class PlayerScript : MonoBehaviour
                         jumpPos = transform.position.y;
                         collision.GetComponent<ChokeScript>().GeneratePowder();
                     }
-                    else
+                    else if(collision.GetComponent<ChokeScript>().GetIsTurn() == false && isDamage == false)
                     {
-                        life--;
+                        life++;
+                        isDamage = true;
                         Debug.Log("Hit");
                     }
                 }
