@@ -121,7 +121,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
 
-        healthSlider.value = player.GetComponent<PlayerScript>().GetLife() / 10;
+        healthSlider.value = player.GetComponent<PlayerScript>().GetLife() / 10.0f;
 
         if(timer <= 0.0f)
         {

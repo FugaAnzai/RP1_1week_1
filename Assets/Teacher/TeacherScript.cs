@@ -31,9 +31,11 @@ public class TeacherScript : MonoBehaviour
     public GameObject chokePrefab;
     public GameObject player;
     public GameObject ground;
+    public GameObject gameStart;
 
     private PlayerScript playerScript;
     private GroundCheck groundCheck;
+
 
     public bool isAttack = true;
     private bool isStartCalculate = false;
@@ -320,8 +322,7 @@ public class TeacherScript : MonoBehaviour
     //Wave1
     private void SetWave1()
     {
-        //コルーチンスタート
-        StartCoroutine("StraightChoke");
+        
     }
     private void Wave1()
     {
@@ -563,7 +564,13 @@ public class TeacherScript : MonoBehaviour
         {
             case WAVE.SetWave1:
                 SetWave1();
-                wave++;
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    //コルーチンスタート
+                    StartCoroutine("StraightChoke");
+                    gameStart.SetActive(false);
+                    wave++;
+                }
                 break;
             case WAVE.Wave1:
                 Wave1();
