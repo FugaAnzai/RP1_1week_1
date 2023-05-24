@@ -9,6 +9,7 @@ TagManager:
   - Choke
   - Powder
   - Teacher
+  - Particles
   layers:
   - Default
   - TransparentFX
