@@ -192,11 +192,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8231419380367048662, guid: b5aca42c7f1c4334bb2fea180a42eb47, type: 3}
       propertyPath: sizeMinusSpeed
-      value: 0.1
+      value: -0.2
       objectReference: {fileID: 0}
     - target: {fileID: 8231419380367048662, guid: b5aca42c7f1c4334bb2fea180a42eb47, type: 3}
       propertyPath: alphaMinusSpeed
-      value: 0.05
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 8231419380367048663, guid: b5aca42c7f1c4334bb2fea180a42eb47, type: 3}
       propertyPath: m_Name
